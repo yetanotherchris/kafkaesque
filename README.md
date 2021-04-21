@@ -3,10 +3,10 @@ Fun with Kafka
 
 ### Tasks
 
-- Create a docker-compose file for Kafka and its DB
+- [X] Create a docker-compose file for Kafka and its DB
 - Create a service that listens for messages on a topic
 - Create an API endpoint that posts messages to a topic
-- Find an admin-type Dashboard for Kafka
+- [X] Find a GUI for Kafka
 - Try a connector out (Dynamo?): https://docs.confluent.io/home/connect/kafka_connectors.html
 - Replay all messages in a topic
 - Streams in C#
@@ -16,3 +16,4 @@ Fun with Kafka
 
 - Intro: https://kafka.apache.org/intro
 - [Redgate tutorial](https://www.red-gate.com/simple-talk/dotnet/net-development/using-apache-kafka-with-net/)
+- Kafka GUI: https://github.com/tchiotludo/akhq#docker
