@@ -20,11 +20,27 @@ Fun with Kafka
 - Streams in C#
 - Look at Brighter if there's time
 
+### Terminology
+
+- Topic: similar to an SNS topic, where messages are sent to.
+- Consumer group: a group of consumers of a topic. This ensures only one consumer reads a message.
+    - The number of consumers can only ever be equal to the number of partitions of the topic.
+- Broker: this is a server in Kafka
+- Partition: messages partioned in a topic, a partition is used for scaling/replication.
+- Partition leader: messages written are sent to this initially.
+- ISR: Followers of the partition leader (and also the leader) that are in-sync replicas.
+- Ack: Sending a message gives you an ACK:
+    - return success at the moment the request is sent
+    - return success once the partition leader acknowledges the request
+    - return success once all replicas in the ISR acknowledge the request
+- Idempotency: (at least once delivery) a message that is written, but times out on the leader. However it has been sent to the followers, 
+  so we write it again and it's a duplicate. Messages therefore need to be Idempotent.
+- Kafka also supports exactly-once delivery.
+
 ### Keys and partitions
 
-https://stackoverflow.com/questions/29511521/is-key-required-as-part-of-sending-messages-to-kafka
-
-Better detail: https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8
+- https://stackoverflow.com/questions/29511521/is-key-required-as-part-of-sending-messages-to-kafka
+- https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8
 
 > Although the messages within a partition are ordered, messages across a topic are not guaranteed to be ordered.
 > Reading records from partitions.
@@ -39,3 +55,4 @@ Better detail: https://medium.com/event-driven-utopia/understanding-kafka-topic-
 - [Redgate tutorial](https://www.red-gate.com/simple-talk/dotnet/net-development/using-apache-kafka-with-net/)
 - Topic manager GUI : https://github.com/conduktor/kafka-stack-docker-compose
 - Kafka GUI: https://github.com/tchiotludo/akhq#docker (but doesn't open 9092 port)
+- Replication and partitions: https://blog.hiya.com/hiyas-best-practices-around-kafka-consistency-and-availability/
