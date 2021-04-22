@@ -39,6 +39,12 @@ Fun with Kafka
 - Kafka also supports exactly-once delivery.
 - Connectors: 'plugins' that send messages on a topic elsewhere, for example to an AWS Lambda or S3. This live inside the Kafka server.
 
+### .NET consumer
+
+It stores your offset locally, and does magic to figure out the leader to contact. Details here:
+
+https://github.com/confluentinc/confluent-kafka-dotnet/wiki/Consumer
+
 ### Keys and partitions
 
 - https://stackoverflow.com/questions/29511521/is-key-required-as-part-of-sending-messages-to-kafka

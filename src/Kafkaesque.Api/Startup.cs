@@ -27,6 +27,7 @@ namespace Kafkaesque.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHostedService<KafkaConsumerService>();
+            services.AddHostedService<KafkaPlaybackConsumerService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
