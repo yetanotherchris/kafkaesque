@@ -13,7 +13,8 @@ Fun with Kafka
 
 - [X] Create a docker-compose file for Kafka and its DB
 - [X] Create an API endpoint that posts messages to a topic
-- Create a service that listens for messages on a topic
+- [X] Create a service that listens for messages on a topic
+    - The `consumer id` dictates if you've received a topic's messages, even after stopping the consumer service and restarting.
 - [X] Find a GUI for Kafka
 - Try a connector out (Dynamo?): https://docs.confluent.io/home/connect/kafka_connectors.html
 - Replay all messages in a topic
@@ -36,6 +37,7 @@ Fun with Kafka
 - Idempotency: (at least once delivery) a message that is written, but times out on the leader. However it has been sent to the followers, 
   so we write it again and it's a duplicate. Messages therefore need to be Idempotent.
 - Kafka also supports exactly-once delivery.
+- Connectors: 'plugins' that send messages on a topic elsewhere, for example to an AWS Lambda or S3. This live inside the Kafka server.
 
 ### Keys and partitions
 

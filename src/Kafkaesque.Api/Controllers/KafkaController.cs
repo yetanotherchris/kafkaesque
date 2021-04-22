@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,25 +15,47 @@ namespace Kafkaesque.Api.Controllers
         {
             BootstrapServers = "localhost:9092"
         };
-        private readonly string topic = "kafkaesque_topic_1";
+        private readonly string _topic = "kafkaesque_topic_1";
         
         [HttpPost]
-        public IActionResult Post([FromQuery] string message)
+        [Route("Send")]
+        public IActionResult Send([FromQuery] string message)
         {
-            return Created(string.Empty, SendToKafka(topic, message));
+            return Created(string.Empty, SendToKafka(_topic, message));
         }
         
-        private Object SendToKafka(string topic, string message)
+        [HttpPost]
+        [Route("SendMany")]
+        public IActionResult SendMany([FromQuery] string title, int count)
         {
-            using (var producer = 
-                 new ProducerBuilder<string, string>(_config).Build())
+            var list = new List<object>();
+            for (int i = 0; i < count; i++)
+            {
+                object result = SendToKafka(_topic, $"{title} ({i} of {count})");
+                list.Add(result);
+            }
+
+            return Created(string.Empty, list);
+        }
+        
+        private Object SendToKafka(string topic, string title)
+        {
+            var message = new KafkaEsqueMessage()
+            {
+                Id = Guid.NewGuid(),
+                TimeSent = DateTime.UtcNow,
+                Title = title
+            };
+            string json = JsonSerializer.Serialize(message);
+            
+            // Note: Null is is a Confluent.Kafka.Null
+            using (var producer = new ProducerBuilder<Null, string>(_config).Build())
             {
                 try
                 {
-                    return producer.ProduceAsync(topic, new Message<string, string>
+                    return producer.ProduceAsync(topic, new Message<Null, string>
                         {
-                            Key = "foo",
-                            Value = message
+                            Value = json
                         })
                         .GetAwaiter()
                         .GetResult();
